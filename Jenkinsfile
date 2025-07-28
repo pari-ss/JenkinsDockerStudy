@@ -34,6 +34,18 @@ pipeline {
             }
         } */
 
+         stage('Deploy') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo 'Deploying the application...'
+                sh 'go run main.go' // Replace with your deployment command
+                // Add your deployment commands here, e.g.,
+                // sh 'kubectl apply -f k8s/deployment.yaml'
+                // sh 'scp target/myapp.war user@server:/opt/tomcat/webapps/'
+            }
+
         // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
     }
 
