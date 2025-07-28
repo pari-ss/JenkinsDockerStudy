@@ -37,11 +37,11 @@ pipeline {
         // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
     }
 
-    post {
+    /* post {
         // Actions to perform after the pipeline completes, regardless of success or failure.
         always {
             cleanWs() // Cleans up the workspace on the agent
         }
         // Add other post-build actions like notifications, archiving artifacts, etc.
-    }
+    } */
 }
