@@ -45,7 +45,7 @@ pipeline {
                 // sh 'kubectl apply -f k8s/deployment.yaml'
                 // sh 'scp target/myapp.war user@server:/opt/tomcat/webapps/'
             }
-
+         }
         // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
     }
 
