@@ -10,7 +10,7 @@ pipeline {
         // Sets environment variables specific to your Go project, if needed.
         // For example, to enable Go modules:
         GO111MODULE = 'on'
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('pariss')
         DOCKER_IMAGE = 'pariss/test-app' 
     }
 
@@ -35,44 +35,18 @@ pipeline {
             }
         }
 
-       /*  stage('Test') {
-            steps {
-                // Runs Go tests.
-                sh 'go test -v ./...' 
-            }
-        } */
-
         stage('push to docker hub'){
                 steps{
                     echo "pushing to docker hub"
                     script{
-                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub'){
+                        docker.withRegistry('https://index.docker.io/v1/', 'pariss'){
                             docker.image("${DOCKER_IMAGE}:latest").push()
                         }
                     }
                     echo "done"
                 }
-        }
-
-        
-        // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
-  
-
-         //stage('Deploy') {
-         //   when {
-         //       expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-         //   }
-         //   steps {
-         //       echo 'Deploying the application...'
-         //       sh '/jenkinsdockerstudy' // Replace with your deployment command
-                // Add your deployment commands here, e.g.,
-                // sh 'kubectl apply -f k8s/deployment.yaml'
-                // sh 'scp target/myapp.war user@server:/opt/tomcat/webapps/'
-         //   }
-         //}
-        // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
-    //}
-
+        }    
+    }
     post {
         // Actions to perform after the pipeline completes, regardless of success or failure.
         always {
@@ -80,5 +54,4 @@ pipeline {
         }
         // Add other post-build actions like notifications, archiving artifacts, etc.
     }
-}
 }
