@@ -40,6 +40,7 @@ pipeline {
                     echo "pushing to docker hub"
                     script{
                         docker.withRegistry('https://index.docker.io/v1/', 'pariss'){
+                            echo "while image push"
                             docker.image("${DOCKER_IMAGE}:latest").push()
                         }
                     }
