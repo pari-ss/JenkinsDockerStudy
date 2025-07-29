@@ -9,21 +9,29 @@ pipeline {
     environment {
         // Sets environment variables specific to your Go project, if needed.
         // For example, to enable Go modules:
-        GO111MODULE = 'on' 
+        GO111MODULE = 'on'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKER_IMAGE = 'pariss/test-app' 
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checks out the source code from a version control system (e.g., Git).
+                echo "checking out repo"
                 git url: 'https://github.com/pari-ss/JenkinsDockerStudy.git', branch: 'master'
             }
         }
 
-        stage('Build') {
+        stage('Run Docker Build') {
             steps {
                 // Builds the Go application.
-                sh 'go build -o jenkinsdockerstudy .' 
+                //sh 'go build -o jenkinsdockerstudy .' 
+                script{
+                    echo "starting docker build"
+                    sh "docker build build -t ${DOCKER_IMAGE}:latest ."
+                    echo "docker built successfully"
+               }
             }
         }
 
@@ -34,26 +42,43 @@ pipeline {
             }
         } */
 
-         stage('Deploy') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
-            steps {
-                echo 'Deploying the application...'
-                sh '/jenkinsdockerstudy' // Replace with your deployment command
+        stage('push to docker hub'){
+                steps{
+                    echo "pushing to docker hub"
+                    script{
+                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub'){
+                            docker.image("${DOCKER_IMAGE}:latest").push()
+                        }
+                    }
+                    echo "done"
+                }
+        }
+
+        
+        // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
+  
+
+         //stage('Deploy') {
+         //   when {
+         //       expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+         //   }
+         //   steps {
+         //       echo 'Deploying the application...'
+         //       sh '/jenkinsdockerstudy' // Replace with your deployment command
                 // Add your deployment commands here, e.g.,
                 // sh 'kubectl apply -f k8s/deployment.yaml'
                 // sh 'scp target/myapp.war user@server:/opt/tomcat/webapps/'
-            }
-         }
+         //   }
+         //}
         // Add more stages as needed for your CI/CD workflow, e.g., 'Docker Build', 'Deploy', etc.
-    }
+    //}
 
-    /* post {
+    post {
         // Actions to perform after the pipeline completes, regardless of success or failure.
         always {
             cleanWs() // Cleans up the workspace on the agent
         }
         // Add other post-build actions like notifications, archiving artifacts, etc.
-    } */
+    }
+}
 }

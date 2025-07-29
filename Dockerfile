@@ -16,7 +16,19 @@ WORKDIR /app
 RUN go mod download
 ## we run go build to compile the binary
 ## executable of our Go program
-RUN go build -o main .
+## RUN go build -o main .
 ## Our start command which kicks off
 ## our newly created binary executable
-CMD ["/app/main"]
+## CMD ["/app/main"]
+
+COPY *.go ./
+RUN CGO_ENABLED=0 GOOS=linux go build -o /test-app
+
+
+FROM scratch
+COPY --from=builder /test-app /test-app
+
+EXPOSE 8081
+
+
+CMD ["/test-app"]
