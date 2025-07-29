@@ -10,7 +10,7 @@ pipeline {
         // Sets environment variables specific to your Go project, if needed.
         // For example, to enable Go modules:
         GO111MODULE = 'on'
-        DOCKERHUB_CREDENTIALS = credentials('pariss')
+        DOCKERHUB_CREDENTIALS = 'pariss'
         DOCKER_IMAGE = 'pariss/test-app' 
     }
 
