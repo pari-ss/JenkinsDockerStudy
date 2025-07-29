@@ -29,7 +29,7 @@ pipeline {
                 //sh 'go build -o jenkinsdockerstudy .' 
                 script{
                     echo "starting docker build"
-                    sh "docker build -t ${DOCKER_IMAGE}:latest ."
+                    sh "sudo docker build -t ${DOCKER_IMAGE}:latest ."
                     echo "docker built successfully"
                }
             }
