@@ -11,7 +11,7 @@ pipeline {
         // For example, to enable Go modules:
         GO111MODULE = 'on'
         DOCKERHUB_CREDENTIALS = credentials('pariss')
-        DOCKER_IMAGE = 'pariss/my-app' 
+        DOCKER_IMAGE = 'pariss/test-app' 
     }
 
     stages {
