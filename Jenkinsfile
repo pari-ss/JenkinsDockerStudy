@@ -50,7 +50,7 @@ pipeline {
    // post {
         // Actions to perform after the pipeline completes, regardless of success or failure.
       //  always {
-            cleanWs() // Cleans up the workspace on the agent
+       //     cleanWs() // Cleans up the workspace on the agent
       //  }
         // Add other post-build actions like notifications, archiving artifacts, etc.
    // }
