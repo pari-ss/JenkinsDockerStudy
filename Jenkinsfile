@@ -10,8 +10,8 @@ pipeline {
         // Sets environment variables specific to your Go project, if needed.
         // For example, to enable Go modules:
         GO111MODULE = 'on'
-        //DOCKERHUB_CREDENTIALS = credentials('pariss')
-        DOCKER_HUB_CREDENTIAL_ID = 'pariss'
+        DOCKERHUB_CREDENTIALS = credentials('pariss')
+        //DOCKER_HUB_CREDENTIAL_ID = 'pariss'
         DOCKER_IMAGE = 'pariss/test-app' 
     }
 
@@ -40,7 +40,7 @@ pipeline {
                 steps{
                     echo "pushing to docker hub"
                     script{
-                        docker.withRegistry('https://index.docker.io/v1/', 'pariss'){
+                        docker.withRegistry('https://index.docker.io/v1/', ${DOCKERHUB_CREDENTIALS}){
                             echo "while image push"
                             docker.image("${DOCKER_IMAGE}:latest").push()
                         }
