@@ -40,7 +40,7 @@ pipeline {
             }
             steps {
                 echo 'Deploying the application...'
-                sh 'go run main.go' // Replace with your deployment command
+                sh 'jenkinsdockerstudy' // Replace with your deployment command
                 // Add your deployment commands here, e.g.,
                 // sh 'kubectl apply -f k8s/deployment.yaml'
                 // sh 'scp target/myapp.war user@server:/opt/tomcat/webapps/'
